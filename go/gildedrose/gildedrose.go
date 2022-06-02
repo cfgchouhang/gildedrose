@@ -56,3 +56,37 @@ func UpdateQuality(items []*Item) {
 	}
 
 }
+
+func UpdateQualityRev(items []*Item) {
+	for i := 0; i < len(items); i++ {
+		if items[i].Name == "Sulfuras, Hand of Ragnaros" {
+			continue
+		}
+
+		qualityVar := -1
+		if items[i].SellIn < 0 {
+			qualityVar *= 2
+		}
+
+		if items[i].Name == "Aged Brie" {
+			qualityVar = 1
+			if items[i].SellIn < 0 {
+				qualityVar += 1
+			}
+		} else if items[i].Name == "Backstage passes to a TAFKAL80ETC concert" {
+			qualityVar = 1
+			if items[i].SellIn < 0 {
+				qualityVar = -items[i].Quality
+			} else if items[i].SellIn < 6 {
+				qualityVar += 2
+			} else if items[i].SellIn < 11 {
+				qualityVar += 1
+			}
+		} else if items[i].Name == "Conjured Mana Cake" {
+			qualityVar *= 2
+		}
+
+		items[i].SellIn -= 1
+		items[i].Quality += qualityVar
+	}
+}
